@@ -21,3 +21,10 @@ front end
 http://localhost/
 ```
 just one angular app on one nginx server
+
+## Docker Hub
+
+https://hub.docker.com/repository/docker/leo45v/backend
+
+https://hub.docker.com/repository/docker/leo45v/front-pelis
+
