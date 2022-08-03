@@ -5,7 +5,7 @@ Can run docker-compose2.yml to get the images from docker hub.
 docker compose -f docker-compose2.yml --build --force-recreate -d
 ```
 
-En caso de crear cada imagen localmente y no descargar desde docker-hub:
+In case of creating each image locally and not downloading from docker-hub:
 ```
 docker compose up -d
 ```
