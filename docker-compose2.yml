@@ -1,0 +1,61 @@
+version: '1'
+
+services:
+
+  # nginx-proxy:
+  #   image: jwilder/nginx-proxy
+  #   restart: always
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  backend:
+    image: leo45v/backend:v1
+    depends_on:
+      - pg-database
+    ports:
+      - 8080:8080
+    environment:
+      - DATA_SOURCE_URL=jdbc:postgresql://pg-database:5432/store
+      - DATA_SOURCE_USERNAME=postgres
+      - DATA_SOURCE_PASSWORD=Control123
+      - HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQL81Dialect
+    networks:
+      - spring-postgres
+
+  pg-database:
+    image: postgres:9.6-alpine
+    restart: always
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - spring-postgres
+    environment:
+      - POSTGRES_DB=store
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Control123
+
+  front-pelis:
+    image: leo45v/front-pelis:v1
+    restart: always
+    depends_on:
+      - nginx-proxy
+    ports:
+      - 80:80
+    environment:
+      - VIRTUAL_HOST=local.pelis.com
+
+
+volumes:
+  postgres-data:
+    external: false
+
+networks:
+  spring-postgres:
+    
+
+
